@@ -27,7 +27,7 @@ COPY package.json pnpm-lock.yaml ./
 COPY vite.config.js ./
 
 # Install production dependencies and vite
-RUN pnpm install --prod
+RUN pnpm install
 
 # Expose port
 EXPOSE 4174
