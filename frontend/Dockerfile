@@ -2,35 +2,32 @@
 FROM node:22-alpine AS builder
 WORKDIR /app
 
-# Install pnpm
 RUN npm install -g pnpm
 
-# Copy package files
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-# Copy source code
 COPY . .
 
-# Build
 RUN pnpm run build
 
 # Production stage
 FROM node:22-alpine
 WORKDIR /app
 
-# Install pnpm
 RUN npm install -g pnpm
+RUN npm install -g vite
 
-COPY --from=builder /app/build   ./dist
 COPY package.json pnpm-lock.yaml ./
-COPY vite.config.js ./
-
-# Install production dependencies and vite
 RUN pnpm install
 
-# Expose port
+# Copy build output
+COPY --from=builder /app/.svelte-kit /app/.svelte-kit
+COPY --from=builder /app/build /app/build
+COPY --from=builder /app/static /app/static
+COPY --from=builder /app/src /app/src
+COPY --from=builder /app/vite.config.js /app/vite.config.js
+
 EXPOSE 4174
 
-# Start the preview server
 CMD ["pnpm", "vite", "preview", "--host", "0.0.0.0", "--port", "4174"]

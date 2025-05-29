@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   frontend:
-    image: ghcr.io/foxyiscoding/tinybin-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "4174:4174"
     depends_on:
@@ -13,7 +15,9 @@ services:
       - tinybin-network
 
   backend:
-    image: ghcr.io/foxyiscoding/tinybin-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "3001:3001"
     depends_on:
