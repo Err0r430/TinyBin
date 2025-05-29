@@ -33,4 +33,4 @@ RUN pnpm install --prod
 EXPOSE 4174
 
 # Start the preview server
-CMD ["pnpm", "exec", "vite", "preview", "--host", "0.0.0.0", "--port", "4173"] 
+CMD ["pnpm", "vite", "preview", "--host", "0.0.0.0", "--port", "4174"]
